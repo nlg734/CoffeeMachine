@@ -3,36 +3,84 @@
 # JetBrains Python academy
 
 
-water_per = 200
-milk_per = 50
-beans_per = 15
+water_espresso = 250
+milk_espresso = 0
+beans_espresso = 16
+cost_espresso = 4
 
+water_latte = 350
+milk_latte = 75
+beans_latte = 20
+cost_latte = 7
+
+water_capp = 200
+milk_capp = 100
+beans_capp = 12
+cost_capp = 6
+
+
+def coffee_status(w, mi, b, c, mo):
+    return "The coffee machine has:\n{} of water\n" \
+           "{} of milk\n{} of coffee beans\n{} of disposable cups\n" \
+           "{} of money".format(w, mi, b, c, mo)
+
+
+def fill():
+    fills = []
+    print("Write how many ml of water do you want to add:")
+    fills.append(int(input()))
+    print("Write how many ml of milk do you want to add:")
+    fills.append(int(input()))
+    print("Write how many grams of coffee beans do you want to add:")
+    fills.append(int(input()))
+    print("Write how many disposable cups of coffee do you want to add:")
+    fills.append(int(input()))
+
+    return fills
 
 def main():
-    print("Write how many ml of water the coffee machine has:")
-    ml_water = int(input())
-    print("Write how many ml of milk the coffee machine has:")
-    ml_milk = int(input())
-    print("Write how many grams of coffee beans the coffee machine has:")
-    g_beans = int(input())
-    print("Write how many cups of coffee you will need:")
-    n_cups = int(input())
+    avail_water = 400
+    avail_milk = 540
+    avail_beans = 120
+    avail_cups = 9
+    money = 550
 
-    count = 0
+    print(coffee_status(avail_water, avail_milk, avail_beans, avail_cups, money))
+    print()
 
-    while ml_water > 0 and ml_milk > 0 and g_beans > 0:
-        ml_water -= water_per
-        ml_milk -= milk_per
-        g_beans -= beans_per
-        if ml_water >= 0 and ml_milk >= 0 and g_beans >= 0:
-         count += 1
+    print("Write action (buy, fill, take):")
+    action = input()
 
-    if count == n_cups:
-        print("Yes, I can make that amount of coffee")
-    if count > n_cups:
-        print("Yes, I can make that amount of coffee (and even",
-              count - n_cups, "more than that)")
-    if count < n_cups:
-        print("No, I can only make", count, "cup(s) of coffee")
+    if action == "take":
+        print("I give you ${}".format(money))
+        money = 0
+    elif action == "fill":
+        filler = fill()
+        avail_water += filler[0]
+        avail_milk += filler[1]
+        avail_beans += filler[2]
+        avail_cups += filler[3]
+    elif action == "buy":
+        print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+        choice = int(input())
+        if choice == 1:
+            avail_water -= water_espresso
+            avail_beans -= beans_espresso
+            avail_milk -= milk_espresso
+            money += cost_espresso
+        elif choice == 2:
+            avail_water -= water_latte
+            avail_beans -= beans_latte
+            avail_milk -= milk_latte
+            money += cost_latte
+        elif choice == 3:
+            avail_water -= water_capp
+            avail_beans -= beans_capp
+            avail_milk -= milk_capp
+            money += cost_capp
+        avail_cups -= 1
+
+    print()
+    print(coffee_status(avail_water, avail_milk, avail_beans, avail_cups, money))
 
 main()
