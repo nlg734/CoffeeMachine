@@ -38,6 +38,33 @@ def fill():
 
     return fills
 
+
+def check_resources(w, mi, b, choice):
+    if choice == 1:
+        if w < water_espresso:
+            return "Sorry, not enough water"
+        if mi < milk_espresso:
+            return "Sorry, not enough milk"
+        if b < beans_espresso:
+            return "Sorry, not enough beans"
+        return -1
+    elif choice == 2:
+        if w < water_latte:
+            return "Sorry, not enough water"
+        if mi < milk_latte:
+            return "Sorry, not enough milk"
+        if b < beans_latte:
+            return "Sorry, not enough beans"
+        return -1
+    else:
+        if w < water_capp:
+            return "Sorry, not enough water"
+        if mi < milk_capp:
+            return "Sorry, not enough milk"
+        if b < beans_capp:
+            return "Sorry, not enough beans"
+        return -1
+
 def main():
     avail_water = 400
     avail_milk = 540
@@ -45,42 +72,57 @@ def main():
     avail_cups = 9
     money = 550
 
-    print(coffee_status(avail_water, avail_milk, avail_beans, avail_cups, money))
-    print()
+    while True:
+        print("Write action (buy, fill, take, remaining, exit):")
+        action = input()
+        print()
 
-    print("Write action (buy, fill, take):")
-    action = input()
+        if action == "exit":
+            break
+        elif action == "remaining":
+            print(coffee_status(avail_water, avail_milk, avail_beans, avail_cups, money))
+            print()
+        elif action == "take":
+            print("I give you ${}".format(money))
+            money = 0
+        elif action == "fill":
+            filler = fill()
+            avail_water += filler[0]
+            avail_milk += filler[1]
+            avail_beans += filler[2]
+            avail_cups += filler[3]
+        elif action == "buy":
+            print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+            choice = input()
+            if choice == "back":
+                continue
+            choice = int(choice)
+            if avail_cups == 0:
+                print("Sorry, not enough cups")
+                continue
+            result = check_resources(avail_water, avail_milk, avail_beans, choice)
+            if choice == 1 and result == -1:
+                avail_water -= water_espresso
+                avail_beans -= beans_espresso
+                avail_milk -= milk_espresso
+                money += cost_espresso
+                avail_cups -= 1
+            elif choice == 2 and result == -1:
+                avail_water -= water_latte
+                avail_beans -= beans_latte
+                avail_milk -= milk_latte
+                money += cost_latte
+                avail_cups -= 1
+            elif choice == 3 and result == -1:
+                avail_water -= water_capp
+                avail_beans -= beans_capp
+                avail_milk -= milk_capp
+                money += cost_capp
+                avail_cups -= 1
+            else:
+                print(result)
 
-    if action == "take":
-        print("I give you ${}".format(money))
-        money = 0
-    elif action == "fill":
-        filler = fill()
-        avail_water += filler[0]
-        avail_milk += filler[1]
-        avail_beans += filler[2]
-        avail_cups += filler[3]
-    elif action == "buy":
-        print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
-        choice = int(input())
-        if choice == 1:
-            avail_water -= water_espresso
-            avail_beans -= beans_espresso
-            avail_milk -= milk_espresso
-            money += cost_espresso
-        elif choice == 2:
-            avail_water -= water_latte
-            avail_beans -= beans_latte
-            avail_milk -= milk_latte
-            money += cost_latte
-        elif choice == 3:
-            avail_water -= water_capp
-            avail_beans -= beans_capp
-            avail_milk -= milk_capp
-            money += cost_capp
-        avail_cups -= 1
+        print()
 
-    print()
-    print(coffee_status(avail_water, avail_milk, avail_beans, avail_cups, money))
 
 main()
