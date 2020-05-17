@@ -103,6 +103,25 @@ files:
     if __name__ == '__main__':
         CoffeeMachineTest('machine.coffee_machine').run_tests()
   learner_created: false
+- name: machine/coffee_machine.py
+  visible: true
+  text: |
+    # coffee_machine.py
+    # written by Natasha Graham
+    # JetBrains Python academy
+
+
+    def main():
+        print("Write how many cups of coffee you will need:")
+        n_cups = int(input())
+        print("For", n_cups, "cups of coffee you will need:")
+        print((n_cups * 200), "ml of water")
+        print((n_cups * 50), "ml of milk")
+        print((n_cups * 15), "g of coffee beans")
+
+
+    main()
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/68/stages/368/implement
-status: Unchecked
-record: -1
+status: Solved
+record: 3
